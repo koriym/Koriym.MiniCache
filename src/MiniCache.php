@@ -40,9 +40,7 @@ final class MiniCache
         $this->tmpDir =  $tmpDir ?? sys_get_temp_dir();
     }
 
-    /**
-     * @psalm-param callable():string $callback
-     */
+    /** @psalm-param callable():string $callback */
     public function get(string $key, callable $callback): string
     {
         $filename = $this->getFilename($key);
@@ -67,7 +65,7 @@ final class MiniCache
     {
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($this->tmpDir, FilesystemIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST
+            RecursiveIteratorIterator::CHILD_FIRST,
         );
         foreach ($iterator as $name => $file) {
             assert($file instanceof SplFileInfo);
