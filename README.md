@@ -24,3 +24,4 @@ $cachedResult = $cache->get('foo', $expensiveComputation);
 assert($cachedResult === '1');
 ```
 
+PSR 16 and Symfony Ccacheをサポートしています。
