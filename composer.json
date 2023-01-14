@@ -1,6 +1,7 @@
 {
     "name": "koriym/mini-cache",
-    "description": "Minimal cache engine for simplest use case",
+    "description": "Simplest cache with no expiration",
+    "keywords": ["cache"],
     "license": "MIT",
     "authors": [
         {

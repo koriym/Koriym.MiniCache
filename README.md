@@ -1,7 +1,7 @@
 # koriym/mini-cache
 
-* No TTL
-* Only string
+* No Expiration
+* String Only
 * Fast
 
 This is the simplest cache available, as no TTL can be specified and only strings can be stored.
