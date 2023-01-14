@@ -23,3 +23,4 @@ $cachedResult = $cache->get('foo', $expensiveComputation);
 
 assert($cachedResult === '1');
 ```
+
