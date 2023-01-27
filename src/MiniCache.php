@@ -12,7 +12,6 @@ use SplFileInfo;
 
 use function assert;
 use function file_exists;
-use function file_get_contents;
 use function file_put_contents;
 use function hash;
 use function is_string;
@@ -31,7 +30,7 @@ use const PATHINFO_DIRNAME;
 
 final class MiniCache
 {
-    private const EXT = 'cache';
+    private const EXT = 'php';
 
     private string $tmpDir;
 
@@ -40,8 +39,12 @@ final class MiniCache
         $this->tmpDir =  $tmpDir ?? sys_get_temp_dir();
     }
 
-    /** @psalm-param callable():string $callback */
-    public function get(string $key, callable $callback): string
+    /**
+     * @psalm-param callable():scalar $callback
+     *
+     * @return scalar
+     */
+    public function get(string $key, callable $callback)
     {
         $filename = $this->getFilename($key);
         if (! file_exists($filename)) {
@@ -51,7 +54,10 @@ final class MiniCache
             return $value;
         }
 
-        return (string) file_get_contents($filename);
+        /** @var scalar $value */
+        $value = require $filename;
+
+        return $value;
     }
 
     public function delete(string $key): bool
@@ -103,7 +109,8 @@ final class MiniCache
             . self::EXT;
     }
 
-    private function writeFile(string $filename, string $content): void
+    /** @param scalar $value */
+    private function writeFile(string $filename, $value): void
     {
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
         if (! is_writable($filepath)) {
@@ -113,6 +120,11 @@ final class MiniCache
         }
 
         $tmpFile = (string) tempnam($filepath, 'swap');
+        if (is_string($value)) {
+            $value = "'{$value}'";
+        }
+
+        $content = '<?php return ' . $value . ';';
         if (file_put_contents($tmpFile, $content) !== false) {
             if (@rename($tmpFile, $filename)) {
                 return;
