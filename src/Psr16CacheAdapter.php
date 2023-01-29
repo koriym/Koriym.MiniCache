@@ -8,9 +8,6 @@ use DateInterval;
 use Koriym\MiniCache\Exception\UnsuportedException;
 use Psr\SimpleCache\CacheInterface;
 
-use function serialize;
-use function unserialize;
-
 final class Psr16CacheAdapter implements CacheInterface
 {
     public function __construct(private MiniCache $cache)
@@ -21,7 +18,7 @@ final class Psr16CacheAdapter implements CacheInterface
     {
         $stored = $this->cache->get($key, static fn () => '');
         if ($stored) {
-            return unserialize($stored);
+            return $stored;
         }
 
         $this->cache->delete($key);
@@ -31,7 +28,8 @@ final class Psr16CacheAdapter implements CacheInterface
 
     public function set(string $key, mixed $value, DateInterval|int|null $ttl = null): bool
     {
-        $this->cache->get($key, static fn () => serialize($value));
+        /** @var scalar $value */
+        $this->cache->get($key, static fn () => $value);
 
         return true;
     }

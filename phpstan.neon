@@ -3,3 +3,5 @@ parameters:
   paths:
     - src
     - tests
+  ignoreErrors:
+       - '#get\(\) has parameter \$metadata with no value type specified in iterable type array#'
