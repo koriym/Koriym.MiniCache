@@ -9,6 +9,7 @@ use Koriym\MiniCache\Exception\DirectoryNotWritableException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function assert;
 use function file_exists;
@@ -28,7 +29,7 @@ use function unlink;
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_DIRNAME;
 
-final class MiniCache
+final class MiniCache implements CacheInterface
 {
     private const EXT = 'php';
 
@@ -44,8 +45,9 @@ final class MiniCache
      *
      * @return scalar
      */
-    public function get(string $key, callable $callback)
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
     {
+        unset($beta, $metadata);
         $filename = $this->getFilename($key);
         if (! file_exists($filename)) {
             $value = $callback();

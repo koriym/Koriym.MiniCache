@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Koriym\MiniCache;
 
+use Symfony\Contracts\Cache\CacheInterface;
+
 use function apcu_clear_cache;
 use function apcu_delete;
 use function apcu_exists;
 use function apcu_fetch;
 use function apcu_store;
 
-final class MiniCacheApc
+final class MiniCacheApc implements CacheInterface
 {
     /** @psalm-param callable():scalar $callback */
-    public function get(string $key, callable $callback): mixed
+    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
     {
+        unset($beta, $metadata);
         $exists = apcu_exists($key);
         if (! $exists) {
             $value = $callback();
