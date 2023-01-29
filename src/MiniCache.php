@@ -44,6 +44,8 @@ final class MiniCache implements CacheInterface
      * @psalm-param callable():scalar $callback
      *
      * @return scalar
+     *
+     * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
     {
