@@ -14,7 +14,11 @@ use function apcu_store;
 
 final class MiniCacheApc implements CacheInterface
 {
-    /** @psalm-param callable():scalar $callback */
+    /**
+     * @psalm-param callable():scalar $callback
+     *
+     * @psalm-suppress MoreSpecificImplementedParamType
+     */
     public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
     {
         unset($beta, $metadata);
