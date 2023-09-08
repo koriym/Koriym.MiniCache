@@ -12,7 +12,7 @@ Want to store non-string data? You can perform the serialization. Be sure to spe
 
 ## Installation
 
-    composer install koriym/mini-cache
+    composer require koriym/mini-cache
 
 ##  Usage
 
