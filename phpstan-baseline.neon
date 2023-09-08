@@ -1,0 +1,16 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#2 \\$callback \\(callable\\(\\)\\: \\(bool\\|float\\|int\\|string\\)\\) of method Koriym\\\\MiniCache\\\\MiniCache\\:\\:get\\(\\) should be compatible with parameter \\$callback \\(callable\\(Symfony\\\\Contracts\\\\Cache\\\\ItemInterface, bool\\)\\: mixed\\) of method Symfony\\\\Contracts\\\\Cache\\\\CacheInterface\\:\\:get\\(\\)$#"
+			count: 1
+			path: src/MiniCache.php
+
+		-
+			message: "#^Method Koriym\\\\MiniCache\\\\MiniCacheApc\\:\\:get\\(\\) should return T but returns bool\\|float\\|int\\|string\\.$#"
+			count: 1
+			path: src/MiniCacheApc.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback \\(callable\\(\\)\\: \\(bool\\|float\\|int\\|string\\)\\) of method Koriym\\\\MiniCache\\\\MiniCacheApc\\:\\:get\\(\\) should be compatible with parameter \\$callback \\(callable\\(Symfony\\\\Contracts\\\\Cache\\\\ItemInterface, bool\\)\\: mixed\\) of method Symfony\\\\Contracts\\\\Cache\\\\CacheInterface\\:\\:get\\(\\)$#"
+			count: 1
+			path: src/MiniCacheApc.php
