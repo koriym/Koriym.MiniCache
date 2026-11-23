@@ -29,6 +29,29 @@ class MiniCacheTest extends TestCase
         $this->assertSame('2', $actual);
     }
 
+    /** @return array<string, array{scalar}> */
+    public function scalarProvider(): array
+    {
+        return [
+            'int' => [7],
+            'float' => [1.0],
+            'true' => [true],
+            'false' => [false],
+            'single quote' => ["it's"],
+            'trailing backslash' => ['a\\'],
+            'php code' => ["'; echo 1; '"],
+        ];
+    }
+
+    /** @dataProvider scalarProvider */
+    public function testCachedValueIsReturnedUnchanged(string|int|float|bool $value): void
+    {
+        $this->cache->delete('scalar');
+        $this->cache->get('scalar', static fn () => $value);
+        $actual = $this->cache->get('scalar', static fn () => 'miss');
+        $this->assertSame($value, $actual);
+    }
+
     public function testDelete(): void
     {
         $this->cache->get('1', static fn () => '2');

@@ -25,6 +25,7 @@ use function substr;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
+use function var_export;
 
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_DIRNAME;
@@ -115,7 +116,7 @@ final class MiniCache implements CacheInterface
     }
 
     /**
-     * Left without a native type so that a non-scalar value keeps its existing behavior instead of a TypeError.
+     * No native type: callers passing a non-scalar value must not start getting a TypeError.
      *
      * @param scalar $value
      */
@@ -129,11 +130,7 @@ final class MiniCache implements CacheInterface
         }
 
         $tmpFile = (string) tempnam($filepath, 'swap');
-        if (is_string($value)) {
-            $value = "'{$value}'";
-        }
-
-        $content = '<?php return ' . $value . ';';
+        $content = '<?php return ' . var_export($value, true) . ';';
         if (file_put_contents($tmpFile, $content) !== false) {
             if (@rename($tmpFile, $filename)) {
                 return;
