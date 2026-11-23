@@ -25,17 +25,19 @@ use function substr;
 use function sys_get_temp_dir;
 use function tempnam;
 use function unlink;
+use function var_export;
 
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_DIRNAME;
 
+/** @psalm-api */
 final class MiniCache implements CacheInterface
 {
     private const EXT = 'php';
 
     private string $tmpDir;
 
-    public function __construct(?string $tmpDir = null)
+    public function __construct(string|null $tmpDir = null)
     {
         $this->tmpDir =  $tmpDir ?? sys_get_temp_dir();
     }
@@ -47,7 +49,7 @@ final class MiniCache implements CacheInterface
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
+    public function get(string $key, callable $callback, float|null $beta = null, array|null &$metadata = null): mixed
     {
         unset($beta, $metadata);
         $filename = $this->getFilename($key);
@@ -113,8 +115,12 @@ final class MiniCache implements CacheInterface
             . self::EXT;
     }
 
-    /** @param scalar $value */
-    private function writeFile(string $filename, $value): void
+    /**
+     * $value is untyped on purpose: a non-scalar must not raise a TypeError here.
+     *
+     * @param scalar $value
+     */
+    private function writeFile(string $filename, $value): void // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     {
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
         if (! is_writable($filepath)) {
@@ -124,11 +130,7 @@ final class MiniCache implements CacheInterface
         }
 
         $tmpFile = (string) tempnam($filepath, 'swap');
-        if (is_string($value)) {
-            $value = "'{$value}'";
-        }
-
-        $content = '<?php return ' . $value . ';';
+        $content = '<?php return ' . var_export($value, true) . ';';
         if (file_put_contents($tmpFile, $content) !== false) {
             if (@rename($tmpFile, $filename)) {
                 return;

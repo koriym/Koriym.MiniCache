@@ -14,11 +14,13 @@
         "ext-hash": "*"
     },
     "require-dev": {
-        "ext-apcu": "*",
-        "bamarni/composer-bin-plugin": "^1.4",
-        "phpunit/phpunit": "^9.5.27",
+        "bamarni/composer-bin-plugin": "^1.8",
+        "phpunit/phpunit": "^9.6.33",
         "psr/simple-cache": "^3.0",
         "symfony/cache-contracts": "^3.0"
+    },
+    "suggest": {
+        "ext-apcu": "Required by MiniCacheApc"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +36,6 @@
         }
     },
     "scripts": {
-        "setup": "php bin/setup.php",
         "test": "./vendor/bin/phpunit",
         "coverage": "php -dzend_extension=xdebug.so -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-text --coverage-html=build/coverage",
         "phpdbg": "phpdbg -qrr ./vendor/bin/phpunit --coverage-text --coverage-html ./build/coverage --coverage-clover=coverage.xml",
@@ -48,7 +49,8 @@
         ],
         "sa": [
             "./vendor/bin/phpstan analyse -c phpstan.neon",
-            "./vendor/bin/psalm --show-info=true"
+            "./vendor/bin/psalm --show-info=true",
+            "./vendor/bin/phpmd analyze src --format text --ruleset ./phpmd.xml"
         ],
         "tests": [
             "@cs",
@@ -62,8 +64,8 @@
             "@pcov",
             "@metrics"
         ],
-        "post-install-cmd": "@composer bin all install --ansi",
-        "post-update-cmd": "@composer bin all update --ansi"
+        "post-install-cmd": "@composer bin all install --ansi --ignore-platform-req=php",
+        "post-update-cmd": "@composer bin all update --ansi --ignore-platform-req=php"
     },
     "scripts-descriptions": {
         "test": "Run unit tests",

@@ -6,6 +6,7 @@ namespace Koriym\MiniCache;
 
 use PHPUnit\Framework\TestCase;
 
+/** @requires extension apcu */
 class MiniCacheApcTest extends TestCase
 {
     protected MiniCacheApc $cache;

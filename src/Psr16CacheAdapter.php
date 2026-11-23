@@ -8,6 +8,7 @@ use DateInterval;
 use Koriym\MiniCache\Exception\UnsuportedException;
 use Psr\SimpleCache\CacheInterface;
 
+/** @psalm-api */
 final class Psr16CacheAdapter implements CacheInterface
 {
     public function __construct(private MiniCache $cache)
