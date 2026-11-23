@@ -8,4 +8,6 @@
 !.idea/runConfigurations
 /demo/tmp
 !/demo/tmp/.gitkeep
+/tests/tmp/*
+!/tests/tmp/.gitkeep
 /coverage.xml
