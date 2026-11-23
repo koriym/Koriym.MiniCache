@@ -14,7 +14,6 @@
         "ext-hash": "*"
     },
     "require-dev": {
-        "ext-apcu": "*",
         "bamarni/composer-bin-plugin": "^1.8",
         "phpunit/phpunit": "^9.6.33",
         "psr/simple-cache": "^3.0",
