@@ -29,13 +29,14 @@ use function unlink;
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_DIRNAME;
 
+/** @psalm-api */
 final class MiniCache implements CacheInterface
 {
     private const EXT = 'php';
 
     private string $tmpDir;
 
-    public function __construct(?string $tmpDir = null)
+    public function __construct(string|null $tmpDir = null)
     {
         $this->tmpDir =  $tmpDir ?? sys_get_temp_dir();
     }
@@ -47,7 +48,7 @@ final class MiniCache implements CacheInterface
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
+    public function get(string $key, callable $callback, float|null $beta = null, array|null &$metadata = null): mixed
     {
         unset($beta, $metadata);
         $filename = $this->getFilename($key);
@@ -113,8 +114,12 @@ final class MiniCache implements CacheInterface
             . self::EXT;
     }
 
-    /** @param scalar $value */
-    private function writeFile(string $filename, $value): void
+    /**
+     * Left without a native type so that a non-scalar value keeps its existing behavior instead of a TypeError.
+     *
+     * @param scalar $value
+     */
+    private function writeFile(string $filename, $value): void // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     {
         $filepath = pathinfo($filename, PATHINFO_DIRNAME);
         if (! is_writable($filepath)) {

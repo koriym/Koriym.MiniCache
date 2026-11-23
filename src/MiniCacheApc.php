@@ -12,6 +12,7 @@ use function apcu_exists;
 use function apcu_fetch;
 use function apcu_store;
 
+/** @psalm-api */
 final class MiniCacheApc implements CacheInterface
 {
     /**
@@ -19,7 +20,7 @@ final class MiniCacheApc implements CacheInterface
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function get(string $key, callable $callback, ?float $beta = null, ?array &$metadata = null): mixed
+    public function get(string $key, callable $callback, float|null $beta = null, array|null &$metadata = null): mixed
     {
         unset($beta, $metadata);
         $exists = apcu_exists($key);

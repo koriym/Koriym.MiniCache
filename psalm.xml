@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
+<!-- ensureOverrideAttribute is off: #[Override] exists only from PHP 8.3 and the floor is 8.0 -->
 <psalm
     errorLevel="1"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/tools/vendor/vimeo/psalm/config.xsd"
     errorBaseline="./psalm.baseline.xml"
+    ensureOverrideAttribute="false"
 >
     <projectFiles>
         <directory name="src" />
