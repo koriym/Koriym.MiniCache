@@ -7,4 +7,8 @@ on:
 
 jobs:
   ci:
-    uses: ray-di/.github/.github/workflows/continuous-integration.yml@v2
+    uses: ray-di/.github/.github/workflows/continuous-integration.yml@v1
+    with:
+      # 8.0.30 is the final 8.0 release; plain "8.0" becomes platform PHP 8.0.0 in lowest runs, below symfony/cache-contracts 3.0's >=8.0.2
+      old_stable: '["8.0.30", "8.1", "8.2", "8.3", "8.4", "8.5"]'
+      current_stable: 8.6
