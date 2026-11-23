@@ -19,6 +19,9 @@
         "psr/simple-cache": "^3.0",
         "symfony/cache-contracts": "^3.0"
     },
+    "suggest": {
+        "ext-apcu": "Required by MiniCacheApc"
+    },
     "autoload": {
         "psr-4": {
             "Koriym\\MiniCache\\": "src/"

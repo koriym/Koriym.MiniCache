@@ -116,7 +116,7 @@ final class MiniCache implements CacheInterface
     }
 
     /**
-     * No native type: callers passing a non-scalar value must not start getting a TypeError.
+     * $value is untyped on purpose: a non-scalar must not raise a TypeError here.
      *
      * @param scalar $value
      */
